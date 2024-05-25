@@ -5,10 +5,18 @@ const ModoJuego = {
 };
 
 class Juego {
+
+    tablero = [
+        '-', '-', '-',
+        '-', '-', '-',
+        '-', '-', '-',
+    ]
+
     constructor(id, modo, jugadores) {
         this.id = id;
         this.modo = modo;
         this.jugadores = jugadores;
+        this.jugadores = this.tablero;
     }
 
     static CrearJuego(juego) {

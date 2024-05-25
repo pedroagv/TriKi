@@ -2,106 +2,117 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <script src="script/script.js" type="module"></script>
-    <link rel="stylesheet" href="css/main.css" type="text/css">
+  <script src="script/script.js" type="module"></script>
+  <link rel="stylesheet" href="css/main.css" type="text/css">
 
-    <title>TRIKI X O!</title>
+  <title>TRIKI X O!</title>
 </head>
 
 <body class="bg-color-personal text-white">
-    <div class="container pt-5 p-3 text-center">
-        <h2>Bienvenido a su juego favorito TRIKI X O! .!</h2>
+  <div class="container pt-5 p-3 text-center">
+    <h2>Bienvenido a su juego favorito TRIKI X O! .!</h2>
 
-        <section id="seccion_modo_juego">
-            <div class="container p-3 text-center">
-                <h3>Seleccione su modo de juego.!</h3>
-                <div class="row">
-                    <div class="col-12 p-5 d-flex justify-content-between fs-1">
-                        <button class="set_modo_juego btn btn-primary w-25" data-mode="1">1 VS 1</button>
-                        <button class="set_modo_juego btn btn-danger w-25" data-mode="pc">1 VS PC</button>
-                        <button class="set_modo_juego btn btn-success w-25" data-mode="online">Online</button>
-                    </div>                    
-                </div>
+    <section id="seccion_modo_juego">
+      <div class="container p-3 text-center">
+        <h3>Seleccione su modo de juego.!</h3>
+        <div class="row">
+          <div class="col-12 p-5 d-flex justify-content-between fs-1">
+            <button class="set_modo_juego btn btn-primary w-25" data-mode="1">1 VS 1</button>
+            <button class="set_modo_juego btn btn-danger w-25" data-mode="pc">1 VS PC</button>
+            <button class="set_modo_juego btn btn-success w-25" data-mode="online">Online</button>
+          </div>
+        </div>
 
+      </div>
+    </section>
+
+    <section id="seccion_configuracion_usuario" name="seccion_configuracion_usuario">
+      <div class="container p-3 text-center">
+        <h3>Configure su usuario.!</h3>
+        <div class="row d-flex justify-content-around">
+          <div class="col-6 p-4">
+            <input type="text" id="nombrejugador1" name="nombrejugador1" class="form form-control w-100"
+              placeholder="Digite el nombre del jugador 1" value="Pedro Alejandro Guerrero">
+          </div>
+          <div class="col-6 p-4">
+            <input type="text" id="nombrejugador2" name="nombrejugador2" class="form form-control w-100"
+              placeholder="Digite el nombre del jugador 2">
+          </div>
+          <div class="col-12 mb-5 ">
+            <button id="crear_juego" name="crear_juego" class="btn btn-success">Empezar un nuevo juego</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="seccion_juego" name="seccion_juego">
+      <div class="container p-3 text-center">
+        <h3 class="p-2">Mucha suerte.!</h3>
+
+        <h4 id="turno" name="turno">Turno del jugador: []</h4>
+
+        <div class="container p-4">
+          <div class="row div_juego" id="div_juego" name="div_juego">
+
+            <div class="caja_juego col-4 border-bottom border-end">
+              <span>&nbsp;</span>
             </div>
-        </section>
-
-        <section id="seccion_configuracion_usuario" name="seccion_configuracion_usuario">
-            <div class="container p-3 text-center">
-                <h3>Configure su usuario.!</h3>
-                <div class="row d-flex justify-content-around">
-                    <div class="col-6 p-4">
-                        <input type="text" id="nombrejugador1" name="nombrejugador1"  class="form form-control w-100" placeholder="Digite el nombre del jugador 1">
-                    </div>
-                    <div class="col-6 p-4">
-                        <input type="text" id="nombrejugador2" name="nombrejugador2" class="form form-control w-100" placeholder="Digite el nombre del jugador 2">
-                    </div>
-                    <div class="col-12 mb-5 ">
-                        <button id="crear_juego" name="crear_juego" class="btn btn-success">Empezar un nuevo juego</button>
-                    </div>
-                </div>
-
+            <div class="caja_juego col-4 border-end">
+              <span>&nbsp;</span>
             </div>
-        </section>
-
-        <section id="seccion_juego" name="seccion_juego">
-            <div class="container p-3 text-center">
-                <h3 class="p-2">Mucha suerte.!</h3>
-                
-                <div class="container p-4">
-                    <div class="row div_juego" id="div_juego"  name="div_juego" >
-                      <div class="caja_juego col-4 border-bottom border-end">
-                        X
-                      </div>
-                      <div class="caja_juego col-4 border-end">
-                        O
-                      </div>
-                      <div class="caja_juego col-4 border-bottom">
-                        X
-                      </div>
-
-                      <div class="caja_juego col-4">
-                        O
-                      </div>
-                      <div class="caja_juego col-4 border">
-                        O
-                      </div>
-                      <div class="caja_juego col-4">
-                        X
-                      </div>
-
-                      <div class="caja_juego col-4 border-end border-top">
-                        X
-                      </div>
-                      <div class="caja_juego col-4">
-                        X
-                      </div>
-                      <div class="caja_juego col-4 border-start border-top">
-                        X
-                      </div>
-                    </div>
-                  </div>
-
+            <div class="caja_juego col-4 border-bottom">
+              <span>&nbsp;</span>
             </div>
-        </section>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+            <div class="caja_juego col-4">
+              <span>&nbsp;</span>
+            </div>
+            <div class="caja_juego col-4 border">
+              <span>&nbsp;</span>
+            </div>
+            <div class="caja_juego col-4">
+              <span>&nbsp;</span>
+            </div>
 
-        <input type="hidden" id="modo_juego" id="modo_juego" value="">
-        <input type="hidden" id="jugador1" id="jugador1" value="">
-        <input type="hidden" id="jugador2" id="jugador1" value="">
+            <div class="caja_juego col-4 border-end border-top">
+              <span>&nbsp;</span>
+            </div>
+            <div class="caja_juego col-4">
+              <span>&nbsp;</span>
+            </div>
+            <div class="caja_juego col-4 border-start border-top">
+              <span>&nbsp;</span>
+            </div>
 
-    </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+
+    <hr>
+    <h3>elementos a ocultar</h3>
+    <br /><input type="text" placeholder="modo_juego" id="modo_juego" id="modo_juego" value="">
+    <br /><input type="text" placeholder="jugador1" id="jugador1" id="jugador1" value="">
+    <br /><input type="text" placeholder="Marcajugador1" id="Marcajugador1" id="Marcajugador1" value="">
+    <br /><input type="text" placeholder="jugador2" id="jugador2" id="jugador2" value="">
+    <br /><input type="text" placeholder="Marcajugador2" id="Marcajugador2" id="Marcajugador2" value="">
+    <br /><input type="text" placeholder="turnoJugador" id="turnoJugador" id="turnoJugador" value="">
+
+  </div>
 </body>
 
 </html>
