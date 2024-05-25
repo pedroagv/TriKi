@@ -40,8 +40,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 modo_juego.value = ModoJuego.UNO_CONTRA_UNO;
             if (modo == 'pc')
                 modo_juego.value = ModoJuego.UNO_CONTRA_PC;
-            if (modo == 'online')
-                modo_juego.value = ModoJuego.ONLINE;
 
             IniciarConfiguracion(Configuracion.SELECCION_MODO);
         });
@@ -127,9 +125,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function AnalizarJuego() {
 
-        debugger;
 
-        // establecer el turno
         let cuantos_vacios = 0;
         Array.from(div_juego.children).forEach((child, index) => {
             if (child.childNodes[1].innerHTML == '&nbsp;') {
@@ -137,15 +133,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
 
-        let resultado = cuantos_vacios % 2;
+        if (cuantos_vacios == 0) {
+            
+            Array.from(div_juego.children).forEach((child, index) => {
+                
+            });
 
-        if (resultado === 1) {
-            turno.innerHTML = `Turno del jugador: [${jugador1.value}]`;
-            turnoJugador.value ='O';
+            alert('se acabo el juego y ahora jajajaja toda la logica de ver quien gano.');
+            alert('ahhhhhhhhh eso falta jajaja.');
+
         } else {
-            turno.innerHTML = `Turno del jugador: [${jugador2.value}]`;
-            turnoJugador.value ='X';
+            let resultado = cuantos_vacios % 2;
+
+            if (resultado === 1) {
+                turno.innerHTML = `Turno del jugador: [${jugador1.value}]`;
+                turnoJugador.value = 'O';
+            } else {
+                turno.innerHTML = `Turno del jugador: [${jugador2.value}]`;
+                turnoJugador.value = 'X';
+            }
         }
+
     }
 });
 
