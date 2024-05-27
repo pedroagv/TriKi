@@ -4,16 +4,18 @@ import { Juego, ModoJuego } from './Juego.js';
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
+    const input_nombrejugador1 = document.getElementById('nombrejugador1');
+    const input_nombrejugador2 = document.getElementById('nombrejugador2');
+    const jugador1 = document.getElementById('jugador1');
+    const jugador2 = document.getElementById('jugador2');
+
     const div_juego = document.getElementById('div_juego');
     const modo_juego = document.getElementById('modo_juego');
     const turno = document.getElementById('turno');
     const seccion_juego = document.getElementById('seccion_juego');
     const seccion_configuracion_usuario = document.getElementById('seccion_configuracion_usuario');
     const btncrear_juego = document.getElementById('crear_juego');
-    const input_nombrejugador1 = document.getElementById('nombrejugador1');
-    const input_nombrejugador2 = document.getElementById('nombrejugador2');
-    const jugador1 = document.getElementById('jugador1');
-    const jugador2 = document.getElementById('jugador2');
+
     const turnoJugador = document.getElementById('turnoJugador');
     const boton_caja_juego = document.querySelectorAll('.caja_juego');
     const botonset_modo_juego = document.querySelectorAll('.set_modo_juego');
@@ -47,8 +49,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     boton_caja_juego.forEach(boton => {
         boton.addEventListener('click', (evento) => {
-            if (evento.currentTarget.children[0].innerHTML == '&nbsp;') {
+            //debugger;
+            const numeros = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+            const contenido = evento.currentTarget.children[0].innerHTML;
+            if (numeros.includes(contenido)) {
                 evento.currentTarget.children[0].innerHTML = turnoJugador.value;
+                evento.currentTarget.children[0].classList.toggle('transparente');
                 AnalizarJuego();
             } else {
                 console.log('ya esta marcada la casillas');
@@ -117,6 +123,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
             seccion_configuracion_usuario.style.display = 'none';
             seccion_juego.style.display = 'block';
 
+            Array.from(div_juego.children).forEach((child, index) => {
+                //debugger;
+                child.childNodes[1].innerHTML = index;
+            });
+
+            document.querySelectorAll('.caja_juego span').forEach(span => {
+                const contenido = span.innerHTML.trim();
+                if (/^[0-8]$/.test(contenido)) {
+                    span.classList.add('transparente');
+                }
+            });
+
+
             AnalizarJuego();
 
             return;
@@ -125,36 +144,54 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function AnalizarJuego() {
 
-
         let cuantos_vacios = 0;
         Array.from(div_juego.children).forEach((child, index) => {
-            if (child.childNodes[1].innerHTML == '&nbsp;') {
+            const numeros = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+            const contenido = child.childNodes[1].innerHTML;
+            if (numeros.includes(contenido)) {
                 cuantos_vacios++;
             }
         });
 
-        if (cuantos_vacios == 0) {
-            
-            Array.from(div_juego.children).forEach((child, index) => {
-                
-            });
+        let resultado = cuantos_vacios % 2;
 
-            alert('se acabo el juego y ahora jajajaja toda la logica de ver quien gano.');
-            alert('ahhhhhhhhh eso falta jajaja.');
-
+        if (resultado === 1) {
+            turno.innerHTML = `Turno del jugador: [${jugador1.value}]`;
+            turnoJugador.value = 'O';
         } else {
-            let resultado = cuantos_vacios % 2;
+            turno.innerHTML = `Turno del jugador: [${jugador2.value}]`;
+            turnoJugador.value = 'X';
+        }
 
-            if (resultado === 1) {
-                turno.innerHTML = `Turno del jugador: [${jugador1.value}]`;
-                turnoJugador.value = 'O';
-            } else {
-                turno.innerHTML = `Turno del jugador: [${jugador2.value}]`;
-                turnoJugador.value = 'X';
-            }
+        debugger;
+        let ganador = VerificarGanador();
+        if (ganador) {
+            alert(`El ganador es ${ganador}`);
+            return;
+        } else if (ganador == null && cuantos_vacios == 0) {
+            alert(`Empate`);
+            return;
         }
 
     }
+
+    function VerificarGanador() {
+        for (let combinacion of CombinacionesGanadoras) {
+            //debugger;
+            const [a, b, c] = combinacion;
+            const valorA = div_juego.children[a].childNodes[1].innerHTML;
+            const valorB = div_juego.children[b].childNodes[1].innerHTML;
+            const valorC = div_juego.children[c].childNodes[1].innerHTML;
+            if (valorA === valorB && valorA === valorC) {
+                if (valorA == 'O')
+                    return input_nombrejugador1.value
+                else
+                    return input_nombrejugador2.value
+            }
+        }
+        return null;
+    }
+
 });
 
 
