@@ -1,9 +1,7 @@
 class Jugador {
-    constructor(id, ip, nombre, historial) {
+    constructor(id, nombre, tablero) {
         this.id = id;
-        this.ip = ip;
         this.nombre = nombre;
-        this.historial = historial;
     }
 
     static CrearJugador(jugador) {

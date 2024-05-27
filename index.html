@@ -26,9 +26,15 @@
         <div class="row">
           <div class="col-12 p-5 d-flex justify-content-between fs-1">
             <button class="set_modo_juego btn btn-warning text-white w-50" data-mode="1">1 VS 1</button>
-            <button class="set_modo_juego btn btn-danger text-white w-50" data-mode="pc">1 VS PC</button>            
+            <button class="set_modo_juego btn btn-danger text-white w-50" data-mode="pc">1 VS PC</button>
           </div>
         </div>
+
+        <h4>Historial</h4>
+        <div id="historial_juegos" class="row">
+          
+        </div>
+
 
       </div>
     </section>
@@ -55,40 +61,50 @@
 
     <section id="seccion_juego" name="seccion_juego">
       <div class="container p-3 text-center">
-        <h4 id="turno" name="turno">Turno del jugador: []</h4>
-        <div class="container p-4">
-          <div class="row div_juego" id="div_juego" name="div_juego">
+        <div class="row">
+          <div class="col-12">
+            <h4 id="turno" name="turno">Turno del jugador: []</h4>
+          </div>
+          <div class="col-12">
+            <div class="container p-4">
+              <div class="row div_juego" id="div_juego" name="div_juego">
 
-            <div class="caja_juego col-4 border-bottom border-end">
-              <span>&nbsp;</span>
-            </div>
-            <div class="caja_juego col-4 border-end">
-              <span>&nbsp;</span>
-            </div>
-            <div class="caja_juego col-4 border-bottom">
-              <span>&nbsp;</span>
-            </div>
+                <div class="caja_juego col-4 border-bottom border-end">
+                  <span>&nbsp;</span>
+                </div>
+                <div class="caja_juego col-4 border-end">
+                  <span>&nbsp;</span>
+                </div>
+                <div class="caja_juego col-4 border-bottom">
+                  <span>&nbsp;</span>
+                </div>
 
-            <div class="caja_juego col-4">
-              <span>&nbsp;</span>
-            </div>
-            <div class="caja_juego col-4 border">
-              <span>&nbsp;</span>
-            </div>
-            <div class="caja_juego col-4">
-              <span>&nbsp;</span>
-            </div>
+                <div class="caja_juego col-4">
+                  <span>&nbsp;</span>
+                </div>
+                <div class="caja_juego col-4 border">
+                  <span>&nbsp;</span>
+                </div>
+                <div class="caja_juego col-4">
+                  <span>&nbsp;</span>
+                </div>
 
-            <div class="caja_juego col-4 border-end border-top">
-              <span>&nbsp;</span>
-            </div>
-            <div class="caja_juego col-4">
-              <span>&nbsp;</span>
-            </div>
-            <div class="caja_juego col-4 border-start border-top">
-              <span>&nbsp;</span>
-            </div>
+                <div class="caja_juego col-4 border-end border-top">
+                  <span>&nbsp;</span>
+                </div>
+                <div class="caja_juego col-4">
+                  <span>&nbsp;</span>
+                </div>
+                <div class="caja_juego col-4 border-start border-top">
+                  <span>&nbsp;</span>
+                </div>
 
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-warning text-white" id="ReiniciarTodo">Reiniciar</button>
           </div>
         </div>
 
@@ -99,15 +115,16 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"></script>
 
-    <hr>
-    <h3>elementos a ocultar</h3>
-    <br /><input type="text" placeholder="modo_juego" id="modo_juego" id="modo_juego" value="">
-    <br /><input type="text" placeholder="jugador1" id="jugador1" id="jugador1" value="">
-    <br /><input type="text" placeholder="Marcajugador1" id="Marcajugador1" id="Marcajugador1" value="">
-    <br /><input type="text" placeholder="jugador2" id="jugador2" id="jugador2" value="">
-    <br /><input type="text" placeholder="Marcajugador2" id="Marcajugador2" id="Marcajugador2" value="">
-    <br /><input type="text" placeholder="turnoJugador" id="turnoJugador" id="turnoJugador" value="">
-
+    <section id="seccion_ocultar" name="seccion_ocultar" style="display: none;">
+      <hr>
+      <h3>elementos a ocultar</h3>
+      <br /><input type="text" placeholder="modo_juego" id="modo_juego" id="modo_juego" value="">
+      <br /><input type="text" placeholder="jugador1" id="jugador1" id="jugador1" value="">
+      <br /><input type="text" placeholder="Marcajugador1" id="Marcajugador1" id="Marcajugador1" value="">
+      <br /><input type="text" placeholder="jugador2" id="jugador2" id="jugador2" value="">
+      <br /><input type="text" placeholder="Marcajugador2" id="Marcajugador2" id="Marcajugador2" value="">
+      <br /><input type="text" placeholder="turnoJugador" id="turnoJugador" id="turnoJugador" value="">
+    </section>
   </div>
 </body>
 

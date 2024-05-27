@@ -4,6 +4,8 @@ import { Juego, ModoJuego } from './Juego.js';
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
+    var ganador = null;
+    var FinJuego = ``;
     const input_nombrejugador1 = document.getElementById('nombrejugador1');
     const input_nombrejugador2 = document.getElementById('nombrejugador2');
     const jugador1 = document.getElementById('jugador1');
@@ -12,6 +14,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const div_juego = document.getElementById('div_juego');
     const modo_juego = document.getElementById('modo_juego');
     const turno = document.getElementById('turno');
+    const btnReiniciarTodo = document.getElementById('ReiniciarTodo');
+
     const seccion_juego = document.getElementById('seccion_juego');
     const seccion_configuracion_usuario = document.getElementById('seccion_configuracion_usuario');
     const btncrear_juego = document.getElementById('crear_juego');
@@ -32,6 +36,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         [2, 4, 6]
     ];
 
+    Juego.MostrarHistorial();
     // inicializar todo: 
     IniciarConfiguracion(Configuracion.LOAD);
 
@@ -49,6 +54,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     boton_caja_juego.forEach(boton => {
         boton.addEventListener('click', (evento) => {
+
+            if (ganador != null)
+                return;
+
             //debugger;
             const numeros = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
             const contenido = evento.currentTarget.children[0].innerHTML;
@@ -63,6 +72,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
+    btnReiniciarTodo.addEventListener('click', (evento) => {
+        ReiniciarTodo();
+    });
 
     btncrear_juego.addEventListener('click', (evento) => {
         IniciarConfiguracion(Configuracion.EMPEZAR_JUEGO);
@@ -135,9 +147,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 }
             });
 
-
             AnalizarJuego();
-
             return;
         }
     }
@@ -164,16 +174,117 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
 
         debugger;
-        let ganador = VerificarGanador();
-        if (ganador) {
-            alert(`El ganador es ${ganador}`);
+        let validarganador = VerificarGanador();
+        ganador = validarganador;
+        if (validarganador) {
+            turno.innerHTML = `El ganador del juego es ${ganador}`;
+            guardarJuego(ganador);
+            turno.classList.add('ganador');
+            turno.classList.add('mover');
             return;
-        } else if (ganador == null && cuantos_vacios == 0) {
-            alert(`Empate`);
+        } else if (validarganador == null && cuantos_vacios == 0) {
+            turno.innerHTML = `el juego termino en Empate`;
+            guardarJuego(`Empate`);
+            turno.classList.add('empate');
+            turno.classList.add('mover');
             return;
         }
 
+        // Si es el turno de la computadora, realizar su movimiento
+        if (turnoJugador.value === 'X' && modo_juego.value === ModoJuego.UNO_CONTRA_PC) {
+            setTimeout(TurnoPC, 1000);  // Añadir un pequeño retraso para mayor realismo
+        }
+
     }
+
+
+    // se le hizo un ajuste pa que quedara brutal inteligente... 
+    function TurnoPC() {
+        if (ganador != null) return;
+    
+        // Obtener las casillas del tablero
+        const casillas = Array.from(div_juego.children).map(child => child.childNodes[1].innerHTML);
+    
+        // Función para verificar si hay una jugada ganadora o de bloqueo
+        function obtenerCasillaEstrategica(simbolo) {
+            for (let combinacion of CombinacionesGanadoras) {
+                const [a, b, c] = combinacion;
+                if (casillas[a] === simbolo && casillas[a] === casillas[b] && !isNaN(casillas[c])) {
+                    return c;
+                }
+                if (casillas[a] === simbolo && casillas[a] === casillas[c] && !isNaN(casillas[b])) {
+                    return b;
+                }
+                if (casillas[b] === simbolo && casillas[b] === casillas[c] && !isNaN(casillas[a])) {
+                    return a;
+                }
+            }
+            return null;
+        }
+    
+        // Intentar ganar
+        let casillaParaGanar = obtenerCasillaEstrategica(turnoJugador.value);
+        if (casillaParaGanar !== null) {
+            marcarCasilla(casillaParaGanar);
+            return;
+        }
+    
+        // Intentar bloquear
+        let simboloOponente = turnoJugador.value === 'X' ? 'O' : 'X';
+        let casillaParaBloquear = obtenerCasillaEstrategica(simboloOponente);
+        if (casillaParaBloquear !== null) {
+            marcarCasilla(casillaParaBloquear);
+            return;
+        }
+    
+        // Tomar el centro si está disponible
+        if (casillas[4] === '4') {
+            marcarCasilla(4);
+            return;
+        }
+    
+        // Tomar una esquina disponible
+        const esquinas = [0, 2, 6, 8];
+        for (let esquina of esquinas) {
+            if (!isNaN(casillas[esquina])) {
+                marcarCasilla(esquina);
+                return;
+            }
+        }
+    
+        // Tomar cualquier otra casilla disponible
+        for (let i = 0; i < casillas.length; i++) {
+            if (!isNaN(casillas[i])) {
+                marcarCasilla(i);
+                return;
+            }
+        }
+    
+        function marcarCasilla(index) {
+            div_juego.children[index].childNodes[1].innerHTML = turnoJugador.value;
+            div_juego.children[index].childNodes[1].classList.toggle('transparente');
+            AnalizarJuego();
+        }
+    }
+
+
+    function guardarJuego(resultado) {
+        debugger;
+        var jugadores = {
+            jugador1: new Jugador(0, jugador1.value, []),
+            jugador2: new Jugador(0, jugador2.value, [])
+        };
+    
+        // Obtener el estado del tablero
+        let tablero = [];
+        Array.from(div_juego.children).forEach((child, index) => {
+            tablero.push(child.childNodes[1].innerHTML);
+        });
+    
+        const juego = new Juego(0, modo_juego.value, JSON.stringify(jugadores), tablero, resultado);
+        Juego.CrearJuego(juego);
+    }
+    
 
     function VerificarGanador() {
         for (let combinacion of CombinacionesGanadoras) {
@@ -192,6 +303,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return null;
     }
 
+    function ReiniciarTodo() {
+        location.reload();
+    }
 });
 
 
@@ -210,6 +324,5 @@ let id = 1,
     nombre = 'pedrogv',
     historial = [];
 
-const usuario = new Jugador(id, Ip, nombre, historial);
-Jugador.CrearJugador(usuario);
+
 */
