@@ -36,7 +36,15 @@ class Juego {
             const jugador2 = jugadores.jugador2.nombre;
             const modo = juego.modo;
             const resultado = juego.resultado;
-            const tablero = juego.tablero.join(' | ');
+            const tableroFormateado = juego.tablero.map((fila, indice) => {
+                if (!isNaN(parseInt(fila)) && indice !== 0) {
+                    return '-';
+                } else if (indice % 3 === 0 && indice !== 0) {
+                    return `<br/>${fila}`;
+                } else {
+                    return fila;
+                }
+            }).join('|');
 
             const juegoDiv = document.createElement('div');
             juegoDiv.classList.add('card', 'mb-2', 'col-4' ,'border', 'border-4');
@@ -48,7 +56,7 @@ class Juego {
                         <strong>Jugador 1:</strong> ${jugador1} <br/>
                         <strong>Jugador 2:</strong> ${jugador2} <br/>
                         <strong>Resultado:</strong> ${resultado} <br/>
-                        <strong>Tablero:</strong> ${tablero}
+                        <strong>Tablero:</strong> <br/>${tableroFormateado}|
                     </p>
                 </div>
             `;
