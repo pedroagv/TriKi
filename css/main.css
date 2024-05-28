@@ -28,7 +28,7 @@ html {
 }
 
 .empate {
-    color:aqua;
+    color: aqua;
 }
 
 .ganador {
@@ -51,4 +51,12 @@ html {
     100% {
         font-size: 2rem;
     }
+}
+
+.turno2 {
+    color: dodgerblue;
+}
+
+.turno1 {
+    color: #00ff00;
 }

@@ -166,10 +166,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let resultado = cuantos_vacios % 2;
 
         if (resultado === 1) {
-            turno.innerHTML = `Turno del jugador: [${jugador1.value}]`;
+            turno.innerHTML = `Turno del jugador: [<span class="turno1">${jugador1.value}]</span>]`;
             turnoJugador.value = 'O';
         } else {
-            turno.innerHTML = `Turno del jugador: [${jugador2.value}]`;
+            turno.innerHTML = `Turno del jugador: [<span class="turno2">${jugador2.value}</span>]`;
             turnoJugador.value = 'X';
         }
 

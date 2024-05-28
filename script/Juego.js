@@ -52,14 +52,14 @@ class Juego {
                 <div class="card-body">
                     <h6 class="card-title text-dark">Juego ${index + 1}</h6>
                     <div class="d-flex justify-content-between">
-    <p class="card-text text-dark">
+    <p class="card-text text-dark" style="text-align:left">
         <strong>Modo:</strong> ${modo} <br/>
         <strong>Jugador 1:</strong> ${jugador1} <br/>
         <strong>Jugador 2:</strong> ${jugador2} <br/>
         <strong>Resultado:</strong> ${resultado}
     </p>
 
-    <p class="card-text text-dark">
+    <p class="card-text text-dark" style="text-align:left">
         <strong>Tablero</strong> <br/>${tableroFormateado}|
     </p>
 </div>
