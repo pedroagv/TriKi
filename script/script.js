@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const input_nombrejugador2 = document.getElementById('nombrejugador2');
     const jugador1 = document.getElementById('jugador1');
     const jugador2 = document.getElementById('jugador2');
+    const nivel = document.getElementById('nivel');
 
     const div_juego = document.getElementById('div_juego');
     const modo_juego = document.getElementById('modo_juego');
@@ -134,6 +135,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             seccion_modo_juego.style.display = 'none';
             seccion_configuracion_usuario.style.display = 'none';
             seccion_juego.style.display = 'block';
+            hnivel.innerHTML = `Nivel: ${nivel.value}`;
 
             Array.from(div_juego.children).forEach((child, index) => {
                 //debugger;
@@ -192,7 +194,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // Si es el turno de la computadora, realizar su movimiento
         if (turnoJugador.value === 'X' && modo_juego.value === ModoJuego.UNO_CONTRA_PC) {
-            setTimeout(TurnoPC, 1000);  // Añadir un pequeño retraso para mayor realismo
+            if (nivel.value == 'Normal')
+                setTimeout(TurnoPC, 1000);  // Añadir un pequeño retraso para mayor realismo
+
+            if (nivel.value == 'Dificil')
+                setTimeout(TurnoPCConEsteroides, 1000);  // Añadir un pequeño retraso para mayor realismo
         }
 
     }
@@ -201,10 +207,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // se le hizo un ajuste pa que quedara brutal inteligente... 
     function TurnoPC() {
         if (ganador != null) return;
-    
+
         // Obtener las casillas del tablero
         const casillas = Array.from(div_juego.children).map(child => child.childNodes[1].innerHTML);
-    
+
         // Función para verificar si hay una jugada ganadora o de bloqueo
         function obtenerCasillaEstrategica(simbolo) {
             for (let combinacion of CombinacionesGanadoras) {
@@ -221,14 +227,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
             return null;
         }
-    
+
         // Intentar ganar
         let casillaParaGanar = obtenerCasillaEstrategica(turnoJugador.value);
         if (casillaParaGanar !== null) {
             marcarCasilla(casillaParaGanar);
             return;
         }
-    
+
         // Intentar bloquear
         let simboloOponente = turnoJugador.value === 'X' ? 'O' : 'X';
         let casillaParaBloquear = obtenerCasillaEstrategica(simboloOponente);
@@ -236,13 +242,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
             marcarCasilla(casillaParaBloquear);
             return;
         }
-    
+
         // Tomar el centro si está disponible
         if (casillas[4] === '4') {
             marcarCasilla(4);
             return;
         }
-    
+
         // Tomar una esquina disponible
         const esquinas = [0, 2, 6, 8];
         for (let esquina of esquinas) {
@@ -251,7 +257,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 return;
             }
         }
-    
+
         // Tomar cualquier otra casilla disponible
         for (let i = 0; i < casillas.length; i++) {
             if (!isNaN(casillas[i])) {
@@ -259,13 +265,98 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 return;
             }
         }
-    
+
         function marcarCasilla(index) {
             div_juego.children[index].childNodes[1].innerHTML = turnoJugador.value;
             div_juego.children[index].childNodes[1].classList.toggle('transparente');
             AnalizarJuego();
         }
     }
+
+    // un nivel con esteroides para la logicca
+    function TurnoPCConEsteroides() {
+
+        const board = Array.from(div_juego.children).map(child => child.childNodes[1].innerHTML);
+
+        function isMovesLeft(board) {
+            return board.includes('0') || board.includes('1') || board.includes('2') ||
+                board.includes('3') || board.includes('4') || board.includes('5') ||
+                board.includes('6') || board.includes('7') || board.includes('8');
+        }
+
+        function evaluate(board) {
+            for (let combinacion of CombinacionesGanadoras) {
+                const [a, b, c] = combinacion;
+                if (board[a] === board[b] && board[a] === board[c]) {
+                    if (board[a] === 'O') return 10; // O gana
+                    if (board[a] === 'X') return -10; // X gana
+                }
+            }
+            return 0; // Empate
+        }
+
+        function minimax(board, depth, isMax) {
+            let score = evaluate(board);
+
+            if (score === 10) return score - depth;
+            if (score === -10) return score + depth;
+            if (!isMovesLeft(board)) return 0;
+
+            if (isMax) {
+                let best = -1000;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] !== 'O' && board[i] !== 'X') {
+                        let temp = board[i];
+                        board[i] = 'O';
+                        best = Math.max(best, minimax(board, depth + 1, !isMax));
+                        board[i] = temp;
+                    }
+                }
+                return best;
+            } else {
+                let best = 1000;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] !== 'O' && board[i] !== 'X') {
+                        let temp = board[i];
+                        board[i] = 'X';
+                        best = Math.min(best, minimax(board, depth + 1, !isMax));
+                        board[i] = temp;
+                    }
+                }
+                return best;
+            }
+        }
+
+        function findBestMove(board) {
+            let bestVal = -1000;
+            let bestMove = -1;
+            for (let i = 0; i < 9; i++) {
+                if (board[i] !== 'O' && board[i] !== 'X') {
+                    let temp = board[i];
+                    board[i] = 'O';
+                    let moveVal = minimax(board, 0, false);
+                    board[i] = temp;
+
+                    if (moveVal > bestVal) {
+                        bestMove = i;
+                        bestVal = moveVal;
+                    }
+                }
+            }
+            return bestMove;
+        }
+
+        const bestMove = findBestMove(board);
+
+        if (bestMove !== -1) {
+            const cell = div_juego.children[bestMove].childNodes[1];
+            cell.innerHTML = 'X';
+            cell.classList.toggle('transparente');
+        }
+
+        AnalizarJuego();
+    }
+
 
 
     function guardarJuego(resultado) {
@@ -274,17 +365,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
             jugador1: new Jugador(0, jugador1.value, []),
             jugador2: new Jugador(0, jugador2.value, [])
         };
-    
+
         // Obtener el estado del tablero
         let tablero = [];
         Array.from(div_juego.children).forEach((child, index) => {
             tablero.push(child.childNodes[1].innerHTML);
         });
-    
+
         const juego = new Juego(0, modo_juego.value, JSON.stringify(jugadores), tablero, resultado);
         Juego.CrearJuego(juego);
     }
-    
+
 
     function VerificarGanador() {
         for (let combinacion of CombinacionesGanadoras) {

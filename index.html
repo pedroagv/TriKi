@@ -52,6 +52,13 @@
               placeholder="Digite el nombre del jugador 2">
           </div>
           <div class="col-12 mb-5 ">
+            <label>Nivel</label>
+            <select id="nivel" name="nivel" class="form form-control">
+              <option value="Normal" selected>Normal</option>
+              <option value="Dificil">Dificil</option>
+            </select>
+          </div>
+          <div class="col-12 mb-5 ">
             <button id="crear_juego" name="crear_juego" class="btn btn-success">Empezar un nuevo juego</button>
           </div>
         </div>
@@ -63,7 +70,8 @@
       <div class="container p-3 text-center">
         <div class="row">
           <div class="col-12">
-            <h4 id="turno" name="turno">Turno del jugador: []</h4>
+            <h5 id="turno" name="turno">Turno del jugador: []</h5>
+            <h6 id="hnivel" name="hnivel">Nivel:</h6>
           </div>
           <div class="col-12">
             <div class="container p-4">
