@@ -47,7 +47,7 @@ class Juego {
             }).join('|');
 
             const juegoDiv = document.createElement('div');
-            juegoDiv.classList.add('card', 'm-2' , 'col-md-4', 'col-12' ,'border' ,'border-primary', 'border-4');
+            juegoDiv.classList.add('card', 'col-md-6', 'col-12');
             juegoDiv.innerHTML = `
                 <div class="card-body">
                     <h6 class="card-title text-dark">Juego ${index + 1}</h6>
