@@ -51,20 +51,27 @@ class Juego {
             juegoDiv.innerHTML = `
                 <div class="card-body">
                     <h6 class="card-title text-dark">Juego ${index + 1}</h6>
-                    <p class="card-text text-dark">
-                        <strong>Modo:</strong> ${modo} <br/>
-                        <strong>Jugador 1:</strong> ${jugador1} <br/>
-                        <strong>Jugador 2:</strong> ${jugador2} <br/>
-                        <strong>Resultado:</strong> ${resultado} <br/>
-                        <strong>Tablero:</strong> <br/>${tableroFormateado}|
-                    </p>
+                    <div class="d-flex justify-content-between">
+    <p class="card-text text-dark">
+        <strong>Modo:</strong> ${modo} <br/>
+        <strong>Jugador 1:</strong> ${jugador1} <br/>
+        <strong>Jugador 2:</strong> ${jugador2} <br/>
+        <strong>Resultado:</strong> ${resultado}
+    </p>
+
+    <p class="card-text text-dark">
+        <strong>Tablero</strong> <br/>${tableroFormateado}|
+    </p>
+</div>
+
+                    
                 </div>
             `;
 
             historialDiv.appendChild(juegoDiv);
         });
     }
-    
+
 }
 
 export { Juego, ModoJuego };
